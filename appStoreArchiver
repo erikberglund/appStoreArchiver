@@ -166,7 +166,7 @@ function sch_archive_installer() {
 			script_mountpoints+=( "${basesystem_mountpoint}" )
 		
 			# Set the SystemVersion.plist path	
-			local systemversion_path="${base_system_mountpoint}/System/Library/CoreServices/SystemVersion.plist"
+			local systemversion_path="${basesystem_mountpoint}/System/Library/CoreServices/SystemVersion.plist"
 		else
 			local systemversion_path="${installesd_mountpoint}/System/Library/CoreServices/SystemVersion.plist"
 		fi
