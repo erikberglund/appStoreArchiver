@@ -266,9 +266,13 @@ function sch_install_application() {
 		sch_archive_application "${appstore_id}"
 	
 		# Sign in to App Store
-		local mas_output=$( "${mas}" signin "${appstore_appleid}" "${appstore_password}" )
-		if [[ ${mas_output} =~ "Error" ]]; then
-			sch_log_exit "Failed to sign in to the App Store using AppleID: ${appstore_appleid}"
+		if [[ -n ${appstore_appleid} ]] && [[ -n ${appstore_password} ]]; then
+			local mas_output=$( "${mas}" signin "${appstore_appleid}" "${appstore_password}" )
+			if [[ ${mas_output} =~ "Error" ]]; then
+				sch_log_exit "Failed to sign in to the App Store using AppleID: ${appstore_appleid}"
+			fi
+		else
+			sch_log "No AppleID is configured, will not attempt signin to AppStore"
 		fi
 	
 		# Install or upgrade application
@@ -288,9 +292,13 @@ function sch_install_installer() {
 		sch_archive_installer "${appstore_id}"
 	
 		# Sign in to App Store
-		local mas_output=$( "${mas}" signin "${appstore_appleid}" "${appstore_password}" )
-		if [[ ${mas_output} =~ "Error" ]]; then
-			sch_log_exit "Failed to sign in to the App Store using AppleID: ${appstore_appleid}"
+		if [[ -n ${appstore_appleid} ]] && [[ -n ${appstore_password} ]]; then
+			local mas_output=$( "${mas}" signin "${appstore_appleid}" "${appstore_password}" )
+			if [[ ${mas_output} =~ "Error" ]]; then
+				sch_log_exit "Failed to sign in to the App Store using AppleID: ${appstore_appleid}"
+			fi
+		else
+			sch_log "No AppleID is configured, will not attempt signin to AppStore"
 		fi
 	
 		# Install or upgrade application
