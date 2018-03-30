@@ -175,7 +175,7 @@ function sch_archive_installer() {
 				local basesystem_mountpoint=$( mktemp -d /private/tmp/dmg.XXXXX ) || sch_log_exit "Unable to create BaseSystem mountpoint"
 		
 				# Attach BaseSystem.dmg
-				/usr/bin/hdiutil attach "${basesystem_path}" -noverify -nobrowse -readonly -owners on -mountpoint "${basesystem_mountpoint}" 1> /dev/null || sch_log_exit "Failed to attach BaseSystem: ${installesd_mountpoint}/BaseSystem.dmg to mountpoint: ${basesystem_mountpoint}"
+				/usr/bin/hdiutil attach "${basesystem_path}" -noverify -nobrowse -readonly -owners on -mountpoint "${basesystem_mountpoint}" 1> /dev/null || sch_log_exit "Failed to attach BaseSystem: ${basesystem_path} to mountpoint: ${basesystem_mountpoint}"
 			
 				# Add mountpoint to mountpoints to remove after checking has finished
 				script_mountpoints+=( "${basesystem_mountpoint}" )
