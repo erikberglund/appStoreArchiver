@@ -22,6 +22,9 @@ base_path="/Users/Shared"
 # Archive
 archive_path="${base_path}/Archive"
 
+# Logged In User
+logged_in_user=$( ioreg -n Root -d1 -a | xpath '/plist/dict/key[.="IOConsoleUsers"]/following-sibling::array/dict/key[.="kCGSSessionOnConsoleKey"]/following-sibling::*[1][name()="true"]/../key[.="kCGSSessionUserNameKey"]/following-sibling::string[1]/text()' 2>/dev/null )
+
 ###
 ### SOURCE CONFIGURATION
 ###
@@ -283,7 +286,7 @@ function sch_install_application() {
 	
 		# Sign in to App Store
 		if [[ -n ${appstore_appleid} ]] && [[ -n ${appstore_password} ]]; then
-			local mas_output=$( "${mas}" signin "${appstore_appleid}" "${appstore_password}" )
+			local mas_output=$( sudo -u "${logged_in_user}" "${mas}" signin "${appstore_appleid}" "${appstore_password}" )
 			if [[ ${mas_output} =~ "Error" ]]; then
 				sch_log_exit "Failed to sign in to the App Store using AppleID: ${appstore_appleid}"
 			fi
@@ -292,7 +295,7 @@ function sch_install_application() {
 		fi
 	
 		# Install or upgrade application
-		local mas_output=$( "${mas}" install "${appstore_id}" 2>&1 )
+		local mas_output=$( sudo -u "${logged_in_user}" "${mas}" install "${appstore_id}" 2>&1 )
 		if [[ ${mas_output} =~ 'is already installed' ]]; then
 			sch_log "Latest version of application with id ${appstore_id} is already installed"
 		fi
@@ -309,7 +312,7 @@ function sch_install_installer() {
 	
 		# Sign in to App Store
 		if [[ -n ${appstore_appleid} ]] && [[ -n ${appstore_password} ]]; then
-			local mas_output=$( "${mas}" signin "${appstore_appleid}" "${appstore_password}" )
+			local mas_output=$( sudo -u "${logged_in_user}" "${mas}" signin "${appstore_appleid}" "${appstore_password}" )
 			if [[ ${mas_output} =~ "Error" ]]; then
 				sch_log_exit "Failed to sign in to the App Store using AppleID: ${appstore_appleid}"
 			fi
@@ -318,7 +321,7 @@ function sch_install_installer() {
 		fi
 	
 		# Install or upgrade application
-		local mas_output=$( "${mas}" install "${appstore_id}" 2>&1 )
+		local mas_output=$( sudo -u "${logged_in_user}" "${mas}" install "${appstore_id}" 2>&1 )
 		if [[ ${mas_output} =~ 'is already installed' ]]; then
 			sch_log "Latest version of application with id ${appstore_id} is already installed"
 		fi
