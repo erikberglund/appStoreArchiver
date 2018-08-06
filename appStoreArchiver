@@ -88,7 +88,7 @@ function sch_archive_application() {
 		fi
 		
 		# Get application name
-		local app_name=$( /usr/libexec/PlistBuddy -c "Print CFBundleDisplayName" "${app_path}/Contents/Info.plist" )
+		local app_name=$( /usr/libexec/PlistBuddy -c "Print CFBundleDisplayName" "${app_path}/Contents/Info.plist" 2>/dev/null )
 		if [[ -z ${app_name} ]]; then
 			app_name=$( /usr/libexec/PlistBuddy -c "Print CFBundleName" "${app_path}/Contents/Info.plist" )	
 		fi
